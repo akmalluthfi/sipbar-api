@@ -1,0 +1,21 @@
+[project]
+name = "sipbar-api"
+version = "0.1.0"
+description = "API for project SIPBAR, use for serving data visualization from database and model machine learning"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "alembic>=1.16.2",
+    "fastapi[standard]>=0.115.13",
+    "joblib>=1.5.2",
+    "pandas>=2.3.3",
+    "psycopg[binary]>=3.2.9",
+    "pydantic-settings>=2.10.0",
+    "scikit-learn>=1.7.2",
+    "sqlmodel>=0.0.24",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.0",
+]
