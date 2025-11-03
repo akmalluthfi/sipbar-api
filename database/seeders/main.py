@@ -25,7 +25,7 @@ def convert_date(date_str):
 
 
 def insert_movements(session):
-    df = pd.read_csv(BASE_DIR / "movements.csv")
+    df = pd.read_csv(BASE_DIR / "movements_rev.csv")
 
     for _, row in df.iterrows():
         row = row.to_dict()
@@ -41,7 +41,7 @@ def insert_movements(session):
             "closing_value": row["Rupiah"],
             "year": row["Tahun"],
             "priority_category": row["Prioritas"],
-            "cluster_category": row["KMeans_Cluster"],
+            "cluster_category": row["Flow_Category"],
         }
 
         movement = InvestmentMovement(**data)
