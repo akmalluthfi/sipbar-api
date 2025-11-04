@@ -22,25 +22,29 @@ def items(session: SessionDep, q: str | None = None, page: int = 1) -> Paginated
     limit = 10
     offset = (page - 1) * limit
 
-    # Query
-    query = select(InvestmentRecord.item, InvestmentRecord.item_code)
+    # Build Base Query
+    base_query = (
+        select(
+            InvestmentRecord.item,
+            InvestmentRecord.item_code,
+            func.count(InvestmentRecord.item).label("total_count"),
+        )
+        .group_by(InvestmentRecord.item, InvestmentRecord.item_code)
+        .having(func.count(InvestmentRecord.item) >= 10)
+    )
 
     if q:
-        query = query.where(InvestmentRecord.item.ilike(f"%{q}%"))
+        base_query = base_query.where(InvestmentRecord.item.ilike(f"%{q}%"))
 
-    query = query.offset(offset).limit(limit)
-
-    # Fetch
-    results = session.exec(query).all()
-    items = [Item(item_code=r.item_code, item=r.item) for r in results]
-
-    # Query untuk total count (harus sesuai filter!)
-    count_query = select(func.count()).select_from(InvestmentRecord)
-    if q:
-        count_query = count_query.where(InvestmentRecord.item.ilike(f"%{q}%"))
+    # Get parameter for pagination
+    count_query = select(func.count()).select_from(base_query.subquery())
     total = session.exec(count_query).one()
+    total_pages = (total + limit - 1) // limit if total > 0 else 0
 
-    total_pages = max((total + limit - 1) // limit, 1)
+    # Fetch the data
+    paginated_query = base_query.offset(offset).limit(limit)
+    results = session.exec(paginated_query).all()
+    items = [Item(item_code=r.item_code, item=r.item) for r in results]
 
     return PaginatedItem(
         data=items,

@@ -34,8 +34,9 @@ def dist_cluster(session: SessionDep):
 @router.get("/priority-cluster")
 def priority_cluster(session: SessionDep):
     query = select(
+        InvestmentMovement.item,
         InvestmentMovement.stock_out,
-        InvestmentMovement.closing_value,
+        InvestmentMovement.closing_stock,
         InvestmentMovement.priority_category,
     )
 
@@ -43,9 +44,10 @@ def priority_cluster(session: SessionDep):
 
     return [
         {
+            "item": item,
             "stock_out": stock_out,
-            "closing_value": closing_value,
+            "closing_stock": closing_stock,
             "priority_category": priority_category,
         }
-        for stock_out, closing_value, priority_category in results
+        for item, stock_out, closing_stock, priority_category in results
     ]
