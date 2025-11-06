@@ -8,8 +8,7 @@ from app.schemas.investment_record import (
     Metric,
     ForecastResponse,
 )
-from sqlmodel import select, func, desc, distinct, text
-from app.utils.main import response
+from sqlmodel import select, func
 import pandas as pd
 from prophet import Prophet
 from sklearn.metrics import mean_absolute_error, root_mean_squared_error

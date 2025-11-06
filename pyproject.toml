@@ -12,6 +12,7 @@ dependencies = [
     "prophet>=1.2.1",
     "psycopg[binary]>=3.2.9",
     "pydantic-settings>=2.10.0",
+    "python-multipart>=0.0.20",
     "scikit-learn>=1.7.2",
     "sqlmodel>=0.0.24",
 ]
