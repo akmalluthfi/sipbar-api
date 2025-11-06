@@ -8,11 +8,11 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY . .
 
-# Buat user non-root untuk keamanan
-RUN adduser --disabled-password --gecos '' appuser
+# Buat user dengan UID dalam rentang yang direkomendasikan (misal: 10001)
+RUN useradd -u 10001 appuser
 
-# Beralih ke user non-root
-USER appuser
+# Jalankan sebagai user non-root dengan UID valid
+USER 10001
 
 # Ekspos port default FastAPI
 EXPOSE 8000
