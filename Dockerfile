@@ -8,11 +8,12 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY . .
 
-# Buat user dengan UID dalam rentang yang direkomendasikan (misal: 10001)
-RUN useradd -u 10001 appuser
+# Create a new user with UID 10016
+RUN addgroup -g 10016 choreo && \
+    adduser  --disabled-password  --no-create-home --uid 10016 --ingroup choreo choreouser
 
-# Jalankan sebagai user non-root dengan UID valid
-USER 10001
+# Switch to the new user
+USER 10016
 
 # Ekspos port default FastAPI
 EXPOSE 8000
