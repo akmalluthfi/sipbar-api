@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi import APIRouter
 from app.core.db import SessionDep
 from app.schemas.investment_movement import InvestmentMovement
-from sqlmodel import select, func, desc, distinct, extract
+from sqlmodel import select, func
 from app.utils.main import response
 from app.utils.types import DefaultYear
 
@@ -22,9 +22,11 @@ def cards(session: SessionDep, year: int = DefaultYear):
 
 @router.get("/dist-cluster")
 def dist_cluster(session: SessionDep):
-    query = select(
-        InvestmentMovement.cluster_category, func.count().label("count")
-    ).group_by(InvestmentMovement.cluster_category)
+    query = (
+        select(InvestmentMovement.cluster_category, func.count().label("count"))
+        .where(InvestmentMovement.cluster_category != None)
+        .group_by(InvestmentMovement.cluster_category)
+    )
 
     results = session.exec(query).all()
 
@@ -38,7 +40,7 @@ def priority_cluster(session: SessionDep):
         InvestmentMovement.stock_out,
         InvestmentMovement.closing_stock,
         InvestmentMovement.priority_category,
-    )
+    ).where(InvestmentMovement.priority_category != None)
 
     results = session.exec(query).all()
 

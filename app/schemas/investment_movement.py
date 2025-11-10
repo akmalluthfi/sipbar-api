@@ -15,5 +15,5 @@ class InvestmentMovement(SQLModel, table=True):
     closing_stock: int
     closing_value: int
     year: int
-    priority_category: str
-    cluster_category: str
+    priority_category: str | None = None
+    cluster_category: str | None = None

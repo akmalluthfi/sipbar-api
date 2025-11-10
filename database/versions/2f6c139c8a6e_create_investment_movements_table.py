@@ -33,8 +33,8 @@ def upgrade() -> None:
         sa.Column("closing_stock", sa.Integer, nullable=False),
         sa.Column("closing_value", sa.Integer, nullable=False),
         sa.Column("year", sa.Integer, nullable=False),
-        sa.Column("priority_category", sa.String(2), nullable=False),
-        sa.Column("cluster_category", sa.String(2), nullable=False),
+        sa.Column("priority_category", sa.String(2), nullable=True),
+        sa.Column("cluster_category", sa.String(2), nullable=True),
     )
 
 

@@ -27,8 +27,6 @@ MOVEMENTS_COLUMNS = [
     "closing_stock",
     "closing_value",
     "year",
-    "priority_category",
-    "cluster_category",
 ]
 
 
